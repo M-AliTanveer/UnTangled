@@ -44,10 +44,13 @@ class Graph:
         for i in range(len(self.edges)):
             self.graph.add_edge(self.edges[i][0],self.edges[i][1], weight=float(self.edges[i][2])/10000000)
     
-    def displaygraph(self,label):
+    def savegraph(self,label):
         pos=nx.get_node_attributes(self.graph,'pos')
         nx.draw_networkx(self.graph,pos)
         if (label==1):
             labels = nx.get_edge_attributes(self.graph,'weight')
             nx.draw_networkx_edge_labels(self.graph,pos,edge_labels=labels)
-        plt.show()
+        plt.savefig('graph.png', bbox_inches='tight')
+
+    
+        

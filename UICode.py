@@ -9,7 +9,8 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import os
+from GraphClass import *
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -18,22 +19,51 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.Datatable = QtWidgets.QTabWidget(self.centralwidget)
-        self.Datatable.setGeometry(QtCore.QRect(-4, -21, 1051, 611))
+        self.Datatable.setGeometry(QtCore.QRect(-4, -21, 1051, 631))
         self.Datatable.setObjectName("Datatable")
         self.MainTab = QtWidgets.QWidget()
         self.MainTab.setObjectName("MainTab")
         self.FileButton = QtWidgets.QPushButton(self.MainTab)
         self.FileButton.setGeometry(QtCore.QRect(630, 210, 91, 41))
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        font.setBold(True)
+        font.setWeight(75)
+        self.FileButton.setFont(font)
         self.FileButton.setObjectName("FileButton")
         self.Inputlabel = QtWidgets.QLabel(self.MainTab)
         self.Inputlabel.setGeometry(QtCore.QRect(36, 150, 591, 41))
         self.Inputlabel.setObjectName("Inputlabel")
         self.InputBox = QtWidgets.QLineEdit(self.MainTab)
         self.InputBox.setGeometry(QtCore.QRect(300, 210, 321, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.InputBox.setFont(font)
         self.InputBox.setObjectName("InputBox")
         self.MainLabel = QtWidgets.QLabel(self.MainTab)
         self.MainLabel.setGeometry(QtCore.QRect(300, 0, 461, 131))
         self.MainLabel.setObjectName("MainLabel")
+        self.fileinputlabel = QtWidgets.QLabel(self.MainTab)
+        self.fileinputlabel.setGeometry(QtCore.QRect(40, 262, 451, 31))
+        self.fileinputlabel.setObjectName("fileinputlabel")
+        self.FileDatabox = QtWidgets.QTextBrowser(self.MainTab)
+        self.FileDatabox.setGeometry(QtCore.QRect(40, 320, 841, 261))
+        self.FileDatabox.setObjectName("FileDatabox")
+        self.GraphItbutton = QtWidgets.QPushButton(self.MainTab)
+        self.GraphItbutton.setGeometry(QtCore.QRect(900, 360, 111, 71))
+        self.GraphItbutton.setMouseTracking(False)
+        self.GraphItbutton.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.GraphItbutton.setIcon(icon)
+        self.GraphItbutton.setIconSize(QtCore.QSize(111, 71))
+        self.GraphItbutton.setObjectName("GraphItbutton")
+        self.Graphitlabel = QtWidgets.QLabel(self.MainTab)
+        self.Graphitlabel.setGeometry(QtCore.QRect(900, 440, 121, 31))
+        self.Graphitlabel.setObjectName("Graphitlabel")
+        self.labelcheckbox = QtWidgets.QCheckBox(self.MainTab)
+        self.labelcheckbox.setGeometry(QtCore.QRect(900, 480, 121, 21))
+        self.labelcheckbox.setObjectName("labelcheckbox")
         self.Datatable.addTab(self.MainTab, "")
         self.VisualINTab = QtWidgets.QWidget()
         self.VisualINTab.setObjectName("VisualINTab")
@@ -95,6 +125,9 @@ class Ui_MainWindow(object):
         self.FileButton.setText(_translate("MainWindow", "Browse"))
         self.Inputlabel.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:18pt;\">Please choose the file to use for input:</span></p></body></html>"))
         self.MainLabel.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:36pt;\">UnTangled</span></p><p align=\"center\"><span style=\" font-size:16pt;\">A graph and tree visualizer <br/>to process different algorithms</span></p></body></html>"))
+        self.fileinputlabel.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:18pt;\">Following is the input provided in the file:</span></p></body></html>"))
+        self.Graphitlabel.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">Graph It!</span></p></body></html>"))
+        self.labelcheckbox.setText(_translate("MainWindow", "Add Weights as Label"))
         self.Datatable.setTabText(self.Datatable.indexOf(self.MainTab), _translate("MainWindow", "Tab 1"))
         self.InputGraph.setText(_translate("MainWindow", "TextLabel"))
         self.comboBox.setItemText(0, _translate("MainWindow", "Prims Algorithm"))
@@ -111,12 +144,18 @@ class Ui_MainWindow(object):
         self.Datatable.setTabText(self.Datatable.indexOf(self.VisualOUTTab), _translate("MainWindow", "Page"))
         self.Datatable.setTabText(self.Datatable.indexOf(self.DataTab), _translate("MainWindow", "Page"))
 
+    def getfile(self):
+        fname = QtWidgets.QFileDialog.getOpenFileName(None, "Select File", os.getcwd(), "Text files (*.txt)")
+        self.InputBox.setText(fname[0])
+        inputfile = open(fname[0], "r")
+        self.FileDatabox.setText(inputfile.read())
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+    def graphit(self,path,graph):
+        graph.ReadFile(path)
+        graph.generategraph()
+        if(self.labelcheckbox.isChecked()==True):
+            graph.savegraph(1)
+        else:
+            graph.savegraph(0)
+        self.Datatable.setCurrentIndex(1)
+        self.InputGraph.setPixmap(QtGui.QPixmap("graph.png"))
