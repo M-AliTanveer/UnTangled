@@ -171,7 +171,7 @@ class Ui_MainWindow(object):
         self.InputGraph.setPixmap(QtGui.QPixmap("graph.png"))
 
     def test(self,graph):
-        edges = graph.kruskal_algo()
+        """ edges = graph.kruskal_algo()
         MST = nx.Graph()
         for i in range(graph.nodecount):
             MST.add_node(int(graph.nodeandpos[i][0]), pos=(float(graph.nodeandpos[i][1]), float(graph.nodeandpos[i][2])))
@@ -179,6 +179,19 @@ class Ui_MainWindow(object):
         for i in range(len(edges)):
             MST.add_edge(edges[i][0],edges[i][1], weight=float(edges[i][2])/10000000)
             
+        plt.clf()
+        pos=nx.get_node_attributes(MST,'pos')
+        nx.draw_networkx(MST,pos)
+        plt.savefig('MST.png', bbox_inches='tight')
+        self.Datatable.setCurrentIndex(2)
+        self.Outputgraphlabel.setText(self.Outputgraphlabel.text() + self.Algochoicebox.currentText())
+        self.OutputGraph.setPixmap(QtGui.QPixmap("MST.png")) """
+        parent, matrix = graph.primMST()
+        MST = nx.Graph()
+        for i in range(graph.nodecount):
+            MST.add_node(int(graph.nodeandpos[i][0]), pos=(float(graph.nodeandpos[i][1]), float(graph.nodeandpos[i][2])))
+        for i in range(1,graph.nodecount):
+            MST.add_edge(parent[i],i, weight=float(matrix[i][parent[i]])/10000000)
         plt.clf()
         pos=nx.get_node_attributes(MST,'pos')
         nx.draw_networkx(MST,pos)

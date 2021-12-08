@@ -1,6 +1,7 @@
 import re
 import networkx as nx
 import matplotlib.pyplot as plt
+import sys
 
 class Graph:
     nodeandpos=[]
@@ -88,7 +89,34 @@ class Graph:
                 self.apply_union(parent, rank, x, y)
         return result
     
+    def minKey(self, key, mstSet):
+        min = sys.maxsize
+        for v in range(self.nodecount):
+            if key[v] < min and mstSet[v] == False:
+                min = key[v]
+                min_index = v
+ 
+        return min_index
 
-
-    
+    def primMST(self):
+        matrix = [[0 for i in range(self.nodecount)] for j in range(self.nodecount)]
+        key = [sys.maxsize] * self.nodecount
+        parent = [None] * self.nodecount 
+        key[0] = 0
+        mstSet = [False] * self.nodecount
+ 
+        parent[0] = -1
+ 
+        for cout in range(self.nodecount):
+ 
+            u = self.minKey(key, mstSet)
+ 
+            mstSet[u] = True
+            for v in range(self.nodecount):
+ 
+                if matrix[u][v] > 0 and mstSet[v] == False and key[v] > matrix[u][v]:
+                        key[v] = matrix[u][v]
+                        parent[v] = u
+        
+        return parent, matrix
         
