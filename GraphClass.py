@@ -2,6 +2,10 @@ import re
 import networkx as nx
 import matplotlib.pyplot as plt
 import sys
+from networkx.algorithms.cluster import average_clustering
+from networkx.classes import graph
+
+from numpy import inf, matrix
 
 class Graph:
     nodeandpos=[]
@@ -48,9 +52,7 @@ class Graph:
                 if self.matrix [ i ] [ j ] != 0 and self.matrix [ j ] [ i ] != 0:
                     self.matrix [ i ] [ j ] = min( self.matrix [ i ] [ j ], self.matrix [ j ] [ i ])
                     self.matrix [ j ] [ i ] = self.matrix [ i ] [ j ]
-        
-        print(self.matrix)
-        
+           
     def generategraph(self):
 
         for i in range(self.nodecount):
@@ -134,3 +136,24 @@ class Graph:
         
         return parent
         
+    def floydWarshall(self):
+        dist = list(map(lambda i: list(map(lambda j: j, i)), self.matrix))
+        for i in range(self.nodecount):
+            for j in range(self.nodecount):
+                if(dist[i][j]==0 and i!=j):
+                    dist[i][j]=float(inf)
+        
+        for k in range(self.nodecount):
+            for i in range(self.nodecount):
+                for j in range(self.nodecount):
+                    dist[i][j] = min(dist[i][j],
+                                    dist[i][k] + dist[k][j]
+                                    )
+
+        return dist
+
+    def CLustering(self):
+        local_clustering = nx.clustering(self.graph)
+        print(local_clustering)
+        average_clustering = nx.average_clustering(self.graph)
+        return local_clustering, average_clustering
