@@ -13,7 +13,7 @@ ui.setupUi(MainWindow)
 MainWindow.show()
 ui.FileButton.clicked.connect(lambda: ui.getfile())
 ui.GraphItbutton.clicked.connect(lambda: ui.graphit(ui.InputBox.text(),obj))
-ui.runalgobutton.clicked.connect(lambda: ui.test(obj))
+ui.runalgobutton.clicked.connect(lambda: ui.algorithm(obj))
 sys.exit(app.exec_())
 
 

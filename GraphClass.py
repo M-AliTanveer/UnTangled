@@ -8,6 +8,7 @@ class Graph:
     edges = []
     nodecount=0
     graph = nx.Graph()
+    matrix = [[]] 
     
     def ReadFile(self,path):
         inputfile = open(path, "r")
@@ -16,7 +17,7 @@ class Graph:
         self.nodecount = int(inputfile.readline())
         inputfile.readline()
         nodeliststr=[]
-
+        self.matrix = [[0 for i in range(self.nodecount)] for j in range(self.nodecount)]
         for i in range(self.nodecount):
             nodeliststr.append(inputfile.readline())
 
@@ -34,16 +35,29 @@ class Graph:
             line=line[1::2]
             i=0
             while i< len(line):
-                self.edges.append([int(node),int(line[i]),float(line[i+1])])
+                self.edges.append([int(node),int(line[i]),float(line[i+1])/10000000])
                 i=i+2
+        for k in range(len(self.edges)):
+            self.matrix[self.edges[k][0]][self.edges[k][1]]=self.edges[k][2]
 
+        for i in range(self.nodecount):
+            for j in range(self.nodecount):
+                if self.matrix [ i ] [ j ] != 0 and self.matrix [ j ] [ i ] == 0:
+                    self.matrix [ j ] [ i ] = self.matrix [ i ] [ j ]
+
+                if self.matrix [ i ] [ j ] != 0 and self.matrix [ j ] [ i ] != 0:
+                    self.matrix [ i ] [ j ] = min( self.matrix [ i ] [ j ], self.matrix [ j ] [ i ])
+                    self.matrix [ j ] [ i ] = self.matrix [ i ] [ j ]
+        
+        print(self.matrix)
+        
     def generategraph(self):
 
         for i in range(self.nodecount):
             self.graph.add_node(int(self.nodeandpos[i][0]), pos=(float(self.nodeandpos[i][1]), float(self.nodeandpos[i][2])))
 
         for i in range(len(self.edges)):
-            self.graph.add_edge(self.edges[i][0],self.edges[i][1], weight=float(self.edges[i][2])/10000000)
+            self.graph.add_edge(self.edges[i][0],self.edges[i][1], weight=float(self.edges[i][2]))
     
     def savegraph(self,label):
         pos=nx.get_node_attributes(self.graph,'pos')
@@ -99,7 +113,7 @@ class Graph:
         return min_index
 
     def primMST(self):
-        matrix = [[0 for i in range(self.nodecount)] for j in range(self.nodecount)]
+
         key = [sys.maxsize] * self.nodecount
         parent = [None] * self.nodecount 
         key[0] = 0
@@ -114,9 +128,9 @@ class Graph:
             mstSet[u] = True
             for v in range(self.nodecount):
  
-                if matrix[u][v] > 0 and mstSet[v] == False and key[v] > matrix[u][v]:
-                        key[v] = matrix[u][v]
+                if self.matrix[u][v] > 0 and mstSet[v] == False and key[v] > self.matrix[u][v]:
+                        key[v] = self.matrix[u][v]
                         parent[v] = u
         
-        return parent, matrix
+        return parent
         
