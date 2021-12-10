@@ -5,7 +5,7 @@ import sys
 from networkx.algorithms.assortativity import neighbor_degree
 from networkx.algorithms.cluster import average_clustering
 from networkx.classes import graph
-
+from sys import maxsize
 from numpy import inf, matrix
 
 class Graph:
@@ -13,7 +13,9 @@ class Graph:
     edges = []
     nodecount=0
     graph = nx.Graph()
+    digraph= nx.DiGraph()
     matrix = [[]] 
+    starting = 0
     
     def ReadFile(self,path):
         inputfile = open(path, "r")
@@ -42,6 +44,7 @@ class Graph:
             while i< len(line):
                 self.edges.append([int(node),int(line[i]),float(line[i+1])/10000000])
                 i=i+2
+        self.starting = int(inputfile.readline())
         for k in range(len(self.edges)):
             self.matrix[self.edges[k][0]][self.edges[k][1]]=self.edges[k][2]
 
@@ -54,10 +57,11 @@ class Graph:
                     self.matrix [ i ] [ j ] = min( self.matrix [ i ] [ j ], self.matrix [ j ] [ i ])
                     self.matrix [ j ] [ i ] = self.matrix [ i ] [ j ]
         self.edges = []
+        
         for i in range(self.nodecount):
             for j in range(i):
                 if self.matrix[i][j] != 0:
-                    self.edges.append([i, j, self.matrix[i][j]/10000000])
+                    self.edges.append([i, j, self.matrix[i][j]])
            
     def generategraph(self):
 
@@ -75,14 +79,14 @@ class Graph:
             nx.draw_networkx_edge_labels(self.graph,pos,edge_labels=labels)
         plt.savefig('graph.png', bbox_inches='tight')
 
-    def find(self, parent, i):
+    def find_kruskal(self, parent, i):
         if parent[i] == i:
             return i
-        return self.find(parent, parent[i])
+        return self.find_kruskal(parent, parent[i])
 
-    def apply_union(self, parent, rank, x, y):
-        xroot = self.find(parent, x)
-        yroot = self.find(parent, y)
+    def union_kruskal(self, parent, rank, x, y):
+        xroot = self.find_kruskal(parent, x)
+        yroot = self.find_kruskal(parent, y)
         if rank[xroot] < rank[yroot]:
             parent[xroot] = yroot
         elif rank[xroot] > rank[yroot]:
@@ -101,14 +105,14 @@ class Graph:
             parent.append(node)
             rank.append(0)
         while e < self.nodecount - 1:
-            u, v, w = self.edges[i]
+            u, v, w = MST[i]
             i = i + 1
-            x = self.find(parent, u)
-            y = self.find(parent, v)
+            x = self.find_kruskal(parent, u)
+            y = self.find_kruskal(parent, v)
             if x != y:
                 e = e + 1
                 result.append([u, v, w])
-                self.apply_union(parent, rank, x, y)
+                self.union_kruskal(parent, rank, x, y)
         return result
     
     def minKey(self, key, mstSet):
@@ -184,6 +188,26 @@ class Graph:
         globa_coeff = sum(local_cluster)
 
         globa_coeff /= len(local_cluster)
-        # print(avg_coefficient)
 
         return local_cluster,globa_coeff
+    
+    def BellmanFord(self):
+        dist = [float('Inf')]*self.nodecount
+        dist[self.starting] = 0
+        
+        cost_Mat = [[float('Inf') for x in range(self.nodecount)] for y in range(self.nodecount)]
+        
+        for i in range(self.nodecount):
+            for j in range(self.nodecount):
+                if self.matrix[i][j] != 0:
+                    cost_Mat[i][j] = self.matrix[i][j]
+
+
+        for some in range(self.nodecount-1):
+            for u in range(self.nodecount):
+                for v in range(self.nodecount):
+                    if cost_Mat[u][v] != float('Inf'):
+                        if dist[u] != float('Inf') and dist[u] + cost_Mat[u][v] < dist[v]:
+                            dist[v] = dist[u] + cost_Mat[u][v]
+
+        return dist

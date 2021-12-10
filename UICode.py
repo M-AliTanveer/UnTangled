@@ -16,12 +16,21 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1041, 625)
+        MainWindow.setStyleSheet("QWidget#MainTab,#VisualINTab,#VisualOUTTab,#DataTab{\n"
+"border-image: url(back.jpg) 0 0 0 0 stretch stretch;\n"
+"}\n"
+"#MainLabel,#Inputlabel,#fileinputlabel,#labelcheckbox,#Graphitlabel,#algolabel,#visualoutputcheckbox,#tabularoutputcheckbox,#Outputgraphlabel,#Outputtablelabel{\n"
+"color: white;}\n"
+"#InputBox,#FileDatabox{\n"
+"background-color: rgba(0, 0, 0, 0); \n"
+"color: white;}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setAutoFillBackground(False)
         self.centralwidget.setObjectName("centralwidget")
         self.Datatable = QtWidgets.QTabWidget(self.centralwidget)
         self.Datatable.setGeometry(QtCore.QRect(-4, -21, 1051, 631))
-        self.Datatable.setStyleSheet("")
+        self.Datatable.setStyleSheet("\n"
+"")
         self.Datatable.setObjectName("Datatable")
         self.MainTab = QtWidgets.QWidget()
         self.MainTab.setStyleSheet("")
@@ -51,7 +60,7 @@ class Ui_MainWindow(object):
         self.fileinputlabel.setGeometry(QtCore.QRect(40, 262, 451, 31))
         self.fileinputlabel.setObjectName("fileinputlabel")
         self.FileDatabox = QtWidgets.QTextBrowser(self.MainTab)
-        self.FileDatabox.setGeometry(QtCore.QRect(40, 320, 841, 261))
+        self.FileDatabox.setGeometry(QtCore.QRect(30, 310, 841, 261))
         self.FileDatabox.setObjectName("FileDatabox")
         self.GraphItbutton = QtWidgets.QPushButton(self.MainTab)
         self.GraphItbutton.setGeometry(QtCore.QRect(900, 350, 121, 81))
@@ -87,7 +96,7 @@ class Ui_MainWindow(object):
         self.InputGraph.setScaledContents(True)
         self.InputGraph.setObjectName("InputGraph")
         self.Algochoicebox = QtWidgets.QComboBox(self.VisualINTab)
-        self.Algochoicebox.setGeometry(QtCore.QRect(270, 500, 271, 41))
+        self.Algochoicebox.setGeometry(QtCore.QRect(170, 500, 271, 41))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.Algochoicebox.setFont(font)
@@ -100,15 +109,15 @@ class Ui_MainWindow(object):
         self.Algochoicebox.addItem("")
         self.Algochoicebox.addItem("")
         self.algolabel = QtWidgets.QLabel(self.VisualINTab)
-        self.algolabel.setGeometry(QtCore.QRect(250, 460, 531, 41))
+        self.algolabel.setGeometry(QtCore.QRect(150, 460, 531, 41))
         self.algolabel.setObjectName("algolabel")
         self.runalgobutton = QtWidgets.QPushButton(self.VisualINTab)
-        self.runalgobutton.setGeometry(QtCore.QRect(570, 500, 171, 81))
+        self.runalgobutton.setGeometry(QtCore.QRect(470, 500, 171, 81))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.runalgobutton.setFont(font)
         self.runalgobutton.setAutoFillBackground(False)
-        self.runalgobutton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.113636 rgba(0, 72, 162, 255), stop:1 rgba(212, 111, 111, 255))")
+        self.runalgobutton.setStyleSheet("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("algo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.runalgobutton.setIcon(icon1)
@@ -116,7 +125,7 @@ class Ui_MainWindow(object):
         self.runalgobutton.setObjectName("runalgobutton")
         self.visualoutputcheckbox = QtWidgets.QCheckBox(self.VisualINTab)
         self.visualoutputcheckbox.setEnabled(True)
-        self.visualoutputcheckbox.setGeometry(QtCore.QRect(290, 540, 111, 41))
+        self.visualoutputcheckbox.setGeometry(QtCore.QRect(190, 540, 111, 41))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
@@ -125,13 +134,21 @@ class Ui_MainWindow(object):
         self.visualoutputcheckbox.setObjectName("visualoutputcheckbox")
         self.tabularoutputcheckbox = QtWidgets.QCheckBox(self.VisualINTab)
         self.tabularoutputcheckbox.setEnabled(True)
-        self.tabularoutputcheckbox.setGeometry(QtCore.QRect(420, 540, 111, 41))
+        self.tabularoutputcheckbox.setGeometry(QtCore.QRect(320, 540, 111, 41))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
         self.tabularoutputcheckbox.setFont(font)
         self.tabularoutputcheckbox.setObjectName("tabularoutputcheckbox")
+        self.BackButton = QtWidgets.QPushButton(self.VisualINTab)
+        self.BackButton.setGeometry(QtCore.QRect(890, 510, 121, 61))
+        self.BackButton.setText("")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("bkbutton.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.BackButton.setIcon(icon2)
+        self.BackButton.setIconSize(QtCore.QSize(121, 75))
+        self.BackButton.setObjectName("BackButton")
         self.Datatable.addTab(self.VisualINTab, "")
         self.VisualOUTTab = QtWidgets.QWidget()
         self.VisualOUTTab.setObjectName("VisualOUTTab")
@@ -140,7 +157,7 @@ class Ui_MainWindow(object):
         self.OutputGraph.setScaledContents(True)
         self.OutputGraph.setObjectName("OutputGraph")
         self.Outputgraphlabel = QtWidgets.QLabel(self.VisualOUTTab)
-        self.Outputgraphlabel.setGeometry(QtCore.QRect(20, 30, 791, 51))
+        self.Outputgraphlabel.setGeometry(QtCore.QRect(20, 0, 791, 81))
         font = QtGui.QFont()
         font.setFamily("MS Serif")
         font.setPointSize(25)
@@ -148,6 +165,12 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.Outputgraphlabel.setFont(font)
         self.Outputgraphlabel.setObjectName("Outputgraphlabel")
+        self.BackButton_2 = QtWidgets.QPushButton(self.VisualOUTTab)
+        self.BackButton_2.setGeometry(QtCore.QRect(900, 20, 121, 61))
+        self.BackButton_2.setText("")
+        self.BackButton_2.setIcon(icon2)
+        self.BackButton_2.setIconSize(QtCore.QSize(121, 75))
+        self.BackButton_2.setObjectName("BackButton_2")
         self.Datatable.addTab(self.VisualOUTTab, "")
         self.DataTab = QtWidgets.QWidget()
         self.DataTab.setObjectName("DataTab")
@@ -157,7 +180,7 @@ class Ui_MainWindow(object):
         self.outputtable.setColumnCount(0)
         self.outputtable.setRowCount(0)
         self.Outputtablelabel = QtWidgets.QLabel(self.DataTab)
-        self.Outputtablelabel.setGeometry(QtCore.QRect(60, 20, 791, 71))
+        self.Outputtablelabel.setGeometry(QtCore.QRect(60, 0, 791, 91))
         font = QtGui.QFont()
         font.setFamily("MS Serif")
         font.setPointSize(25)
@@ -165,15 +188,18 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.Outputtablelabel.setFont(font)
         self.Outputtablelabel.setObjectName("Outputtablelabel")
+        self.BackButton_3 = QtWidgets.QPushButton(self.DataTab)
+        self.BackButton_3.setGeometry(QtCore.QRect(900, 20, 121, 61))
+        self.BackButton_3.setText("")
+        self.BackButton_3.setIcon(icon2)
+        self.BackButton_3.setIconSize(QtCore.QSize(121, 75))
+        self.BackButton_3.setObjectName("BackButton_3")
         self.Datatable.addTab(self.DataTab, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1041, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -215,8 +241,13 @@ class Ui_MainWindow(object):
         self.InputBox.setText(fname[0])
         inputfile = open(fname[0], "r")
         self.FileDatabox.setText(inputfile.read())
+        self.FileDatabox.setStyleSheet("#FileDatabox{\n"
+        "background-color: rgba(255, 255, 255, 1); \n"
+        "color: black;}" )
 
     def graphit(self,path,graph):
+        self.tabularoutputcheckbox.setVisible(False)
+        self.visualoutputcheckbox.setVisible(False)
         graph.ReadFile(path)
         graph.generategraph()
         if(self.labelcheckbox.isChecked()==True):
@@ -226,6 +257,40 @@ class Ui_MainWindow(object):
         self.Datatable.setCurrentIndex(1)
         self.InputGraph.setPixmap(QtGui.QPixmap("graph.png"))
 
+    def test(self):
+        self.tabularoutputcheckbox.setVisible(False)
+        self.visualoutputcheckbox.setVisible(False)
+        current = self.Algochoicebox.currentText()
+        if(current == "Prims Algorithm"):
+            self.visualoutputcheckbox.setCheckState(True)
+            self.visualoutputcheckbox.setEnabled(False)
+            self.tabularoutputcheckbox.setVisible(False)
+            self.visualoutputcheckbox.setVisible(True)
+
+        elif(current=="Kruskal Algorithm"):
+            self.visualoutputcheckbox.setCheckState(True)
+            self.visualoutputcheckbox.setEnabled(False)
+            self.tabularoutputcheckbox.setVisible(False)
+            self.visualoutputcheckbox.setVisible(True)
+
+        elif(current=="Floyd Warshall Algorithm"):
+            self.tabularoutputcheckbox.setCheckState(True)
+            self.tabularoutputcheckbox.setEnabled(False)
+            self.visualoutputcheckbox.setVisible(False)
+            self.tabularoutputcheckbox.setVisible(True)
+        elif(current=="Clustering Coefficient in Graph Theory"):
+            self.visualoutputcheckbox.setCheckState(False)
+            self.visualoutputcheckbox.setCheckState(False)
+            self.tabularoutputcheckbox.setVisible(True)
+            self.visualoutputcheckbox.setVisible(True)
+
+    def backbutton(self):
+        curr = self.Datatable.currentIndex()
+        if(curr!=3):
+            self.Datatable.setCurrentIndex(curr-1)
+        else:
+            self.Datatable.setCurrentIndex(curr-2)
+
     def algorithm(self,graph):
         algorithmchoice = self.Algochoicebox.currentText()
         if(algorithmchoice=="Prims Algorithm"):
@@ -233,14 +298,19 @@ class Ui_MainWindow(object):
             MST = nx.Graph()
             for i in range(graph.nodecount):
                 MST.add_node(int(graph.nodeandpos[i][0]), pos=(float(graph.nodeandpos[i][1]), float(graph.nodeandpos[i][2])))
+            mstweight=0
             for i in range(1,graph.nodecount):
-                MST.add_edge(parent[i],i, weight=float(graph.matrix[i][parent[i]])/10000000)
+                MST.add_edge(parent[i],i, weight=float(graph.matrix[i][parent[i]]))
+                mstweight += graph.matrix[i][parent[i]]
             plt.clf()
             pos=nx.get_node_attributes(MST,'pos')
             nx.draw_networkx(MST,pos)
+            if (self.labelcheckbox.isChecked()==True):
+                labels = nx.get_edge_attributes(MST,'weight')
+                nx.draw_networkx_edge_labels(MST,pos,edge_labels=labels)
             plt.savefig('MST.png', bbox_inches='tight')
             self.Datatable.setCurrentIndex(2)
-            self.Outputgraphlabel.setText(self.Outputgraphlabel.text() + self.Algochoicebox.currentText())
+            self.Outputgraphlabel.setText("Result Generated by:"  + "Prim's Algorithm" + '\n' + "MST Weight = " + str(mstweight))
             self.OutputGraph.setPixmap(QtGui.QPixmap("MST.png"))
 
         elif (algorithmchoice=="Kruskal Algorithm"):
@@ -249,15 +319,20 @@ class Ui_MainWindow(object):
             for i in range(graph.nodecount):
                 MST.add_node(int(graph.nodeandpos[i][0]), pos=(float(graph.nodeandpos[i][1]), float(graph.nodeandpos[i][2])))
 
+            mstweight=0
             for i in range(len(edges)):
-                MST.add_edge(edges[i][0],edges[i][1], weight=float(edges[i][2])/10000000)
+                MST.add_edge(edges[i][0],edges[i][1], weight=float(edges[i][2]))
+                mstweight += edges[i][2]
                 
             plt.clf()
             pos=nx.get_node_attributes(MST,'pos')
             nx.draw_networkx(MST,pos)
+            if (self.labelcheckbox.isChecked()==True):
+                labels = nx.get_edge_attributes(MST,'weight')
+                nx.draw_networkx_edge_labels(MST,pos,edge_labels=labels)
             plt.savefig('MST.png', bbox_inches='tight')
             self.Datatable.setCurrentIndex(2)
-            self.Outputgraphlabel.setText(self.Outputgraphlabel.text() + self.Algochoicebox.currentText())
+            self.Outputgraphlabel.setText("Result Generated by:"  + "Kruskal's Algorithm" + '\n' + "MST Weight = " + str(mstweight))
             self.OutputGraph.setPixmap(QtGui.QPixmap("MST.png"))
 
         elif(algorithmchoice=="Floyd Warshall Algorithm"):
@@ -272,9 +347,9 @@ class Ui_MainWindow(object):
             self.outputtable.setVerticalHeaderLabels(labels)
             for i in range(graph.nodecount):
                 for j in range(graph.nodecount):
-                    self.outputtable.setItem(i,j,QtWidgets.QTableWidgetItem(str(matrix[i][j])))
+                    self.outputtable.setItem(i,j,QtWidgets.QTableWidgetItem(str(round(matrix[i][j],6))))
             self.Datatable.setCurrentIndex(3)
-            self.Outputtablelabel.setText(self.Outputtablelabel.text() + self.Algochoicebox.currentText())
+            self.Outputtablelabel.setText( "Result Generated by:"  + " Floyd Warshall Algorithm")
             self.outputtable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         
         elif(algorithmchoice=="Clustering Coefficient in Graph Theory"):
@@ -289,7 +364,7 @@ class Ui_MainWindow(object):
             
             self.outputtable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
             self.Datatable.setCurrentIndex(3)
-            self.Outputtablelabel.setText(self.Outputtablelabel.text() + self.Algochoicebox.currentText() + '\n' + "Global Clustering Coeffecient = " + str(globa))
+            self.Outputtablelabel.setText("Result Generated by:"  + "Clustering Coeffecient" + '\n' + "Global Average Coeffecient = " + str(globa))
 
             """ pos=nx.get_node_attributes(graph,'pos')
             nx.draw(graph, pos, with_labels=True, connectionstyle="arc3,rad=0.1")
@@ -309,5 +384,16 @@ class Ui_MainWindow(object):
             plt.text(min_x, min_y-0.009, 'Average Coefficient = ' + str(round(globa, 3)), fontsize = 22, horizontalalignment= "left", verticalalignment = "top")
             plt.savefig("ClusteringCoefficient.png") """
 
+        elif(algorithmchoice=="Bellman Ford Algorithm"):
+            distances = graph.BellmanFord()
+            self.outputtable.setColumnCount(graph.nodecount)
+            self.outputtable.setRowCount(1)
+            labels = [str(i) for i in range(graph.nodecount)]
+            self.outputtable.setHorizontalHeaderLabels(labels)
+            self.outputtable.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+            for i in range(graph.nodecount):
+                    self.outputtable.setItem(0,i,QtWidgets.QTableWidgetItem(str(round(distances[i],6))))
+            self.outputtable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+            self.Datatable.setCurrentIndex(3)
+            self.Outputtablelabel.setText("Result Generated by:"  + "Bellman Ford" )
 
-        

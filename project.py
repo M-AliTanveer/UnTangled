@@ -14,6 +14,8 @@ MainWindow.show()
 ui.FileButton.clicked.connect(lambda: ui.getfile())
 ui.GraphItbutton.clicked.connect(lambda: ui.graphit(ui.InputBox.text(),obj))
 ui.runalgobutton.clicked.connect(lambda: ui.algorithm(obj))
+ui.Algochoicebox.currentTextChanged.connect(lambda: ui.test())
+ui.BackButton.clicked.connect(lambda: ui.backbutton())
+ui.BackButton_2.clicked.connect(lambda: ui.backbutton())
+ui.BackButton_3.clicked.connect(lambda: ui.backbutton())
 sys.exit(app.exec_())
-
-
