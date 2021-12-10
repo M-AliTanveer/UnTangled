@@ -17,11 +17,14 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1041, 625)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setAutoFillBackground(False)
         self.centralwidget.setObjectName("centralwidget")
         self.Datatable = QtWidgets.QTabWidget(self.centralwidget)
         self.Datatable.setGeometry(QtCore.QRect(-4, -21, 1051, 631))
+        self.Datatable.setStyleSheet("")
         self.Datatable.setObjectName("Datatable")
         self.MainTab = QtWidgets.QWidget()
+        self.MainTab.setStyleSheet("")
         self.MainTab.setObjectName("MainTab")
         self.FileButton = QtWidgets.QPushButton(self.MainTab)
         self.FileButton.setGeometry(QtCore.QRect(630, 210, 91, 41))
@@ -42,6 +45,7 @@ class Ui_MainWindow(object):
         self.InputBox.setObjectName("InputBox")
         self.MainLabel = QtWidgets.QLabel(self.MainTab)
         self.MainLabel.setGeometry(QtCore.QRect(300, 0, 461, 131))
+        self.MainLabel.setStyleSheet("")
         self.MainLabel.setObjectName("MainLabel")
         self.fileinputlabel = QtWidgets.QLabel(self.MainTab)
         self.fileinputlabel.setGeometry(QtCore.QRect(40, 262, 451, 31))
@@ -50,8 +54,9 @@ class Ui_MainWindow(object):
         self.FileDatabox.setGeometry(QtCore.QRect(40, 320, 841, 261))
         self.FileDatabox.setObjectName("FileDatabox")
         self.GraphItbutton = QtWidgets.QPushButton(self.MainTab)
-        self.GraphItbutton.setGeometry(QtCore.QRect(900, 360, 111, 71))
+        self.GraphItbutton.setGeometry(QtCore.QRect(900, 350, 121, 81))
         self.GraphItbutton.setMouseTracking(False)
+        self.GraphItbutton.setStyleSheet("background-colo= qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(255, 255, 0, 69), stop:0.375 rgba(255, 255, 0, 69), stop:0.423533 rgba(251, 255, 0, 145), stop:0.45 rgba(247, 255, 0, 208), stop:0.477581 rgba(255, 244, 71, 130), stop:0.518717 rgba(255, 218, 71, 130), stop:0.55 rgba(255, 255, 0, 255), stop:0.57754 rgba(255, 203, 0, 130), stop:0.625 rgba(255, 255, 0, 69), stop:1 rgba(255, 255, 0, 69))border: 2px dashed black;")
         self.GraphItbutton.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -59,10 +64,20 @@ class Ui_MainWindow(object):
         self.GraphItbutton.setIconSize(QtCore.QSize(111, 71))
         self.GraphItbutton.setObjectName("GraphItbutton")
         self.Graphitlabel = QtWidgets.QLabel(self.MainTab)
-        self.Graphitlabel.setGeometry(QtCore.QRect(900, 440, 121, 31))
+        self.Graphitlabel.setGeometry(QtCore.QRect(900, 430, 121, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
+        self.Graphitlabel.setFont(font)
         self.Graphitlabel.setObjectName("Graphitlabel")
         self.labelcheckbox = QtWidgets.QCheckBox(self.MainTab)
-        self.labelcheckbox.setGeometry(QtCore.QRect(900, 480, 121, 21))
+        self.labelcheckbox.setGeometry(QtCore.QRect(900, 480, 121, 31))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.labelcheckbox.setFont(font)
         self.labelcheckbox.setObjectName("labelcheckbox")
         self.Datatable.addTab(self.MainTab, "")
         self.VisualINTab = QtWidgets.QWidget()
@@ -72,7 +87,7 @@ class Ui_MainWindow(object):
         self.InputGraph.setScaledContents(True)
         self.InputGraph.setObjectName("InputGraph")
         self.Algochoicebox = QtWidgets.QComboBox(self.VisualINTab)
-        self.Algochoicebox.setGeometry(QtCore.QRect(220, 520, 261, 41))
+        self.Algochoicebox.setGeometry(QtCore.QRect(270, 500, 271, 41))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.Algochoicebox.setFont(font)
@@ -88,11 +103,35 @@ class Ui_MainWindow(object):
         self.algolabel.setGeometry(QtCore.QRect(250, 460, 531, 41))
         self.algolabel.setObjectName("algolabel")
         self.runalgobutton = QtWidgets.QPushButton(self.VisualINTab)
-        self.runalgobutton.setGeometry(QtCore.QRect(620, 510, 181, 71))
+        self.runalgobutton.setGeometry(QtCore.QRect(570, 500, 171, 81))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.runalgobutton.setFont(font)
+        self.runalgobutton.setAutoFillBackground(False)
+        self.runalgobutton.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0.113636 rgba(0, 72, 162, 255), stop:1 rgba(212, 111, 111, 255))")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("algo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.runalgobutton.setIcon(icon1)
+        self.runalgobutton.setIconSize(QtCore.QSize(181, 71))
         self.runalgobutton.setObjectName("runalgobutton")
+        self.visualoutputcheckbox = QtWidgets.QCheckBox(self.VisualINTab)
+        self.visualoutputcheckbox.setEnabled(True)
+        self.visualoutputcheckbox.setGeometry(QtCore.QRect(290, 540, 111, 41))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.visualoutputcheckbox.setFont(font)
+        self.visualoutputcheckbox.setObjectName("visualoutputcheckbox")
+        self.tabularoutputcheckbox = QtWidgets.QCheckBox(self.VisualINTab)
+        self.tabularoutputcheckbox.setEnabled(True)
+        self.tabularoutputcheckbox.setGeometry(QtCore.QRect(420, 540, 111, 41))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.tabularoutputcheckbox.setFont(font)
+        self.tabularoutputcheckbox.setObjectName("tabularoutputcheckbox")
         self.Datatable.addTab(self.VisualINTab, "")
         self.VisualOUTTab = QtWidgets.QWidget()
         self.VisualOUTTab.setObjectName("VisualOUTTab")
@@ -147,7 +186,8 @@ class Ui_MainWindow(object):
         self.MainLabel.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:36pt;\">UnTangled</span></p><p align=\"center\"><span style=\" font-size:16pt;\">A graph and tree visualizer <br/>to process different algorithms</span></p></body></html>"))
         self.fileinputlabel.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:18pt;\">Following is the input provided in the file:</span></p></body></html>"))
         self.Graphitlabel.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:16pt;\">Graph It!</span></p></body></html>"))
-        self.labelcheckbox.setText(_translate("MainWindow", "Add Weights as Label"))
+        self.labelcheckbox.setText(_translate("MainWindow", "Add Weights \n"
+" as Label"))
         self.Datatable.setTabText(self.Datatable.indexOf(self.MainTab), _translate("MainWindow", "Tab 1"))
         self.InputGraph.setText(_translate("MainWindow", "TextLabel"))
         self.Algochoicebox.setItemText(0, _translate("MainWindow", "Prims Algorithm"))
@@ -159,6 +199,10 @@ class Ui_MainWindow(object):
         self.Algochoicebox.setItemText(6, _translate("MainWindow", "Clustering Coefficient in Graph Theory"))
         self.algolabel.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:18pt;\">Please choose an algorithm to run on this graph:</span></p></body></html>"))
         self.runalgobutton.setText(_translate("MainWindow", "Run It"))
+        self.visualoutputcheckbox.setText(_translate("MainWindow", "Show Output \n"
+" Visually"))
+        self.tabularoutputcheckbox.setText(_translate("MainWindow", "Show Output \n"
+" in Table"))
         self.Datatable.setTabText(self.Datatable.indexOf(self.VisualINTab), _translate("MainWindow", "Tab 2"))
         self.OutputGraph.setText(_translate("MainWindow", "TextLabel"))
         self.Outputgraphlabel.setText(_translate("MainWindow", "Result Generated by: "))
@@ -235,7 +279,6 @@ class Ui_MainWindow(object):
         
         elif(algorithmchoice=="Clustering Coefficient in Graph Theory"):
             local, globa = graph.CLustering()
-            local = list(local.values())
             self.outputtable.setColumnCount(graph.nodecount)
             self.outputtable.setRowCount(1)
             labels = [str(i) for i in range(graph.nodecount)]
@@ -248,6 +291,23 @@ class Ui_MainWindow(object):
             self.Datatable.setCurrentIndex(3)
             self.Outputtablelabel.setText(self.Outputtablelabel.text() + self.Algochoicebox.currentText() + '\n' + "Global Clustering Coeffecient = " + str(globa))
 
+            """ pos=nx.get_node_attributes(graph,'pos')
+            nx.draw(graph, pos, with_labels=True, connectionstyle="arc3,rad=0.1")
+            min_x = float('inf')
+            min_y = float('inf')
+
+            for i in range(len(local)):
+                x,y = pos[i]
+
+                if x < min_x:
+                    min_x = x
+                if y < min_y:
+                    min_y = y
+
+                plt.text(x,y+0.03,s=str(round(local[i], 2)), bbox=dict(facecolor='red'),horizontalalignment='center')
+            
+            plt.text(min_x, min_y-0.009, 'Average Coefficient = ' + str(round(globa, 3)), fontsize = 22, horizontalalignment= "left", verticalalignment = "top")
+            plt.savefig("ClusteringCoefficient.png") """
 
 
         

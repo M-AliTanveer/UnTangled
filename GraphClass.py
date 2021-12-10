@@ -2,6 +2,7 @@ import re
 import networkx as nx
 import matplotlib.pyplot as plt
 import sys
+from networkx.algorithms.assortativity import neighbor_degree
 from networkx.algorithms.cluster import average_clustering
 from networkx.classes import graph
 
@@ -52,6 +53,11 @@ class Graph:
                 if self.matrix [ i ] [ j ] != 0 and self.matrix [ j ] [ i ] != 0:
                     self.matrix [ i ] [ j ] = min( self.matrix [ i ] [ j ], self.matrix [ j ] [ i ])
                     self.matrix [ j ] [ i ] = self.matrix [ i ] [ j ]
+        self.edges = []
+        for i in range(self.nodecount):
+            for j in range(i):
+                if self.matrix[i][j] != 0:
+                    self.edges.append([i, j, self.matrix[i][j]/10000000])
            
     def generategraph(self):
 
@@ -153,7 +159,31 @@ class Graph:
         return dist
 
     def CLustering(self):
-        local_clustering = nx.clustering(self.graph)
-        print(local_clustering)
-        average_clustering = nx.average_clustering(self.graph)
-        return local_clustering, average_clustering
+        local_cluster = [None]*self.nodecount
+        for node in self.graph:
+
+            adjacentNodes = []
+            indirectly_connected_nodes = []
+
+            for i in self.graph.neighbors(node):
+                adjacentNodes.append(i)
+
+            for i in self.graph.neighbors(node):
+                for j in self.graph.neighbors(i):
+                    if j in adjacentNodes:
+                        indirectly_connected_nodes.append(j)
+
+
+            cluster = 0
+            neighbor_count =(float(len(list(self.graph.neighbors(node)))))
+            if len(indirectly_connected_nodes):
+                cluster =  (float(len(indirectly_connected_nodes)))/((neighbor_count) * (float(len(list(self.graph.neighbors(node)))) - 1))
+
+            local_cluster[node] = cluster
+
+        globa_coeff = sum(local_cluster)
+
+        globa_coeff /= len(local_cluster)
+        # print(avg_coefficient)
+
+        return local_cluster,globa_coeff
