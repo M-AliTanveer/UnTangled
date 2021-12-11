@@ -7,10 +7,12 @@ from networkx.algorithms.cluster import average_clustering
 from networkx.classes import graph
 from sys import maxsize
 from numpy import inf, matrix
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Graph:
     nodeandpos=[]
     edges = []
+    diedges=[]
     nodecount=0
     graph = nx.Graph()
     digraph= nx.DiGraph()
@@ -18,10 +20,26 @@ class Graph:
     starting = 0
     
     def ReadFile(self,path):
+        if(path==''):
+            QtWidgets.QMessageBox.about(None, "Error!", "Please select Valid NetSim file")
+            return "error"
+        self.edges=[]
+        self.matrix=[[]]
+        self.nodeandpos=[]
+        
         inputfile = open(path, "r")
+        str=inputfile.readline()
+        
+        if(str!="NETSIM\n"):
+            QtWidgets.QMessageBox.about(None, "Error!", "Please select Valid NetSim file")
+            return "error"
+        
         inputfile.readline()
-        inputfile.readline()
-        self.nodecount = int(inputfile.readline())
+        try:
+            self.nodecount = int(inputfile.readline())
+        except:
+            QtWidgets.QMessageBox.about(None, "Error!", "Please select Valid NetSim file")
+            return "error"
         inputfile.readline()
         nodeliststr=[]
         self.matrix = [[0 for i in range(self.nodecount)] for j in range(self.nodecount)]
@@ -56,6 +74,7 @@ class Graph:
                 if self.matrix [ i ] [ j ] != 0 and self.matrix [ j ] [ i ] != 0:
                     self.matrix [ i ] [ j ] = min( self.matrix [ i ] [ j ], self.matrix [ j ] [ i ])
                     self.matrix [ j ] [ i ] = self.matrix [ i ] [ j ]
+        self.diedges=self.edges
         self.edges = []
         
         for i in range(self.nodecount):
@@ -64,7 +83,6 @@ class Graph:
                     self.edges.append([i, j, self.matrix[i][j]])
            
     def generategraph(self):
-
         for i in range(self.nodecount):
             self.graph.add_node(int(self.nodeandpos[i][0]), pos=(float(self.nodeandpos[i][1]), float(self.nodeandpos[i][2])))
 
@@ -73,20 +91,21 @@ class Graph:
     
     def savegraph(self,label):
         pos=nx.get_node_attributes(self.graph,'pos')
+        plt.figure(figsize=(8, 8), dpi=100)
         nx.draw_networkx(self.graph,pos)
         if (label==1):
             labels = nx.get_edge_attributes(self.graph,'weight')
             nx.draw_networkx_edge_labels(self.graph,pos,edge_labels=labels)
         plt.savefig('graph.png', bbox_inches='tight')
 
-    def find_kruskal(self, parent, i):
+    def find(self, parent, i):
         if parent[i] == i:
             return i
-        return self.find_kruskal(parent, parent[i])
+        return self.find(parent, parent[i])
 
-    def union_kruskal(self, parent, rank, x, y):
-        xroot = self.find_kruskal(parent, x)
-        yroot = self.find_kruskal(parent, y)
+    def union(self, parent, rank, x, y):
+        xroot = self.find(parent, x)
+        yroot = self.find(parent, y)
         if rank[xroot] < rank[yroot]:
             parent[xroot] = yroot
         elif rank[xroot] > rank[yroot]:
@@ -107,12 +126,12 @@ class Graph:
         while e < self.nodecount - 1:
             u, v, w = MST[i]
             i = i + 1
-            x = self.find_kruskal(parent, u)
-            y = self.find_kruskal(parent, v)
+            x = self.find(parent, u)
+            y = self.find(parent, v)
             if x != y:
                 e = e + 1
                 result.append([u, v, w])
-                self.union_kruskal(parent, rank, x, y)
+                self.union(parent, rank, x, y)
         return result
     
     def minKey(self, key, mstSet):
@@ -211,3 +230,50 @@ class Graph:
                             dist[v] = dist[u] + cost_Mat[u][v]
 
         return dist
+
+    def BoruvkaAlgo(self):
+        adjacencylist = []
+        parent = []
+        rank = []
+        cheapest = []
+        mstweight = 0
+        numTree = self.nodecount
+        edge=[]
+
+        for i in range(self.nodecount):
+            for j in range(self.nodecount):
+                if self.matrix[i][j] != 0:
+                    adjacencylist.append([i, j, self.matrix[i][j]])
+
+        for vertex in range(self.nodecount):
+            parent.append(vertex)
+            rank.append(0)
+            cheapest = [-1] * self.nodecount
+
+        while numTree > 1:
+            for i in range(len(adjacencylist)):
+                u, v, w = adjacencylist[i]
+                set1 = self.find(parent, u)
+                set2 = self.find(parent, v)
+
+                if set1 != set2:
+                    if cheapest[set1] == -1 or cheapest[set1][2] > w :
+                        cheapest[set1] = [u,v,w] 
+    
+                    if cheapest[set2] == -1 or cheapest[set2][2] > w :
+                        cheapest[set2] = [u,v,w]
+
+            for node in range(self.nodecount):
+                if cheapest[node] != -1:
+                    u,v,w = cheapest[node]
+                    set1 = self.find(parent, u)
+                    set2 = self.find(parent ,v)
+    
+                    if set1 != set2 :
+                        mstweight += w
+                        self.union(parent, rank, set1, set2)
+                        edge.append([u, v, w])
+                        numTree = numTree - 1
+        return edge,mstweight
+
+        
