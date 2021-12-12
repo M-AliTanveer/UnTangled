@@ -250,6 +250,7 @@ class Ui_MainWindow(object):
         self.visualoutputcheckbox.setEnabled(False)
         self.visualoutputcheckbox.setCheckState(True)
         self.tabularoutputcheckbox.setVisible(False)
+        self.Algochoicebox.setCurrentIndex(0)
         str=graph.ReadFile(path)
         if(str=="error"):
             return
@@ -261,7 +262,7 @@ class Ui_MainWindow(object):
         self.Datatable.setCurrentIndex(1)
         self.InputGraph.setPixmap(QtGui.QPixmap("graph.png"))
 
-    def test(self):
+    def updateboxes(self):
         self.tabularoutputcheckbox.setVisible(False)
         self.visualoutputcheckbox.setEnabled(True)
         self.tabularoutputcheckbox.setEnabled(True)
@@ -291,6 +292,12 @@ class Ui_MainWindow(object):
             self.visualoutputcheckbox.setVisible(False)
             self.tabularoutputcheckbox.setVisible(True)
         
+        elif(current=="Borůvka's Algorithm"):
+            self.visualoutputcheckbox.setCheckState(True)
+            self.visualoutputcheckbox.setEnabled(False)
+            self.tabularoutputcheckbox.setVisible(False)
+            self.visualoutputcheckbox.setVisible(True)
+
         elif(current=="Clustering Coefficient in Graph Theory"):
             self.visualoutputcheckbox.setCheckState(False)
             self.visualoutputcheckbox.setCheckState(False)
@@ -306,6 +313,7 @@ class Ui_MainWindow(object):
 
     def algorithm(self,graph):
         algorithmchoice = self.Algochoicebox.currentText()
+
         if(algorithmchoice=="Prims Algorithm"):
             parent = graph.primMST()
             MST = nx.Graph()

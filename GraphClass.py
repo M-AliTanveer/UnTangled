@@ -242,7 +242,7 @@ class Graph:
 
         for i in range(self.nodecount):
             for j in range(self.nodecount):
-                if self.matrix[i][j] != 0:
+                if i!=j and self.matrix[i][j] != 0:
                     adjacencylist.append([i, j, self.matrix[i][j]])
 
         for vertex in range(self.nodecount):
@@ -252,28 +252,31 @@ class Graph:
 
         while numTree > 1:
             for i in range(len(adjacencylist)):
-                u, v, w = adjacencylist[i]
-                set1 = self.find(parent, u)
-                set2 = self.find(parent, v)
+                n1, n2, w = adjacencylist[i]
+                set1 = self.find(parent, n1)
+                set2 = self.find(parent, n2)
 
                 if set1 != set2:
                     if cheapest[set1] == -1 or cheapest[set1][2] > w :
-                        cheapest[set1] = [u,v,w] 
+                        cheapest[set1] = [n1,n2,w] 
     
                     if cheapest[set2] == -1 or cheapest[set2][2] > w :
-                        cheapest[set2] = [u,v,w]
+                        cheapest[set2] = [n1,n2,w]
 
             for node in range(self.nodecount):
+                #Check if cheapest for current set exists
                 if cheapest[node] != -1:
-                    u,v,w = cheapest[node]
-                    set1 = self.find(parent, u)
-                    set2 = self.find(parent ,v)
+                    n1,n2,w = cheapest[node]
+                    set1 = self.find(parent, n1)
+                    set2 = self.find(parent ,n2)
     
                     if set1 != set2 :
                         mstweight += w
                         self.union(parent, rank, set1, set2)
-                        edge.append([u, v, w])
+                        edge.append([n1,n2,w])
                         numTree = numTree - 1
-        return edge,mstweight
 
+            cheapest = [-1] * self.nodecount
+        
+        return edge, mstweight
         
