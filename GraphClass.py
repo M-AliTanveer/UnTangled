@@ -279,4 +279,45 @@ class Graph:
             cheapest = [-1] * self.nodecount
         
         return edge, mstweight
-        
+
+    def minDistance(self, dist, sptSet):
+ 
+        # Initialize minimum distance for next node
+        min = sys.maxsize
+ 
+        # Search not nearest vertex not in the
+        # shortest path tree
+        for v in range(self.nodecount):
+            if dist[v] < min and sptSet[v] == False:
+                min = dist[v]
+                min_index = v
+ 
+        return min_index
+
+    def dijkstra(self):
+ 
+        src=self.starting
+        dist = [sys.maxsize] * self.nodecount
+        dist[src] = 0
+        sptSet = [False] * self.nodecount
+ 
+        for cout in range(self.nodecount):
+ 
+            # Pick the minimum distance vertex from
+            # the set of vertices not yet processed.
+            # u is always equal to src in first iteration
+            u = self.minDistance(dist, sptSet)
+ 
+            # Put the minimum distance vertex in the
+            # shortest path tree
+            sptSet[u] = True
+ 
+            # Update dist value of the adjacent vertices
+            # of the picked vertex only if the current
+            # distance is greater than new distance and
+            # the vertex in not in the shortest path tree
+            for v in range(self.nodecount):
+                if self.matrix[u][v] > 0 and sptSet[v] == False and dist[v] > dist[u] + self.matrix[u][v]:
+                    dist[v] = dist[u] + self.matrix[u][v]
+ 
+        return dist
